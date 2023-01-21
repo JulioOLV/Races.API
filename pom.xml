@@ -11,7 +11,8 @@
 	<modules>
 		<module>races-service</module>
 		<module>races-domain</module>
-	</modules>
+        <module>races-infra-database</module>
+    </modules>
 	<properties>
 		<java.version>17</java.version>
 	</properties>

@@ -26,6 +26,7 @@ message Race {
   double displacement = 6;
   repeated string names = 7;
   repeated string languages = 8;
+  repeated SubRace subRaces = 9;
 }
 
 message Modifier {
@@ -33,7 +34,7 @@ message Modifier {
   int32 value = 2;
 }
 
-message SubRaces {
+message SubRace {
   string name = 1;
   Modifier bonusModifier = 2;
 }
