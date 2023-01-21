@@ -3,11 +3,24 @@ package ddg.races.api.grpc.service;
 import ddg.races.Race;
 import ddg.races.RaceId;
 import ddg.races.RaceServiceGrpc;
+import ddg.races.api.respositories.IRaceRepository;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import javax.inject.Inject;
 
 @GrpcService
 public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
+    @Inject
+    IRaceRepository raceRepository;
+    private final Logger LOG = LoggerFactory.getLogger(getClass());
+
+    public RaceServiceImpl(IRaceRepository raceRepository) {
+        this.raceRepository = raceRepository;
+    }
+
     @Override
     public void find(RaceId request, StreamObserver<Race> responseObserver) {
         String id = request.getId();
@@ -24,6 +37,8 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
                 .setHeight(1.5)
                 .setDisplacement(9.0)
                 .build();
+
+        var gg = raceRepository.findAll();
 
         responseObserver.onNext(response);
         responseObserver.onCompleted();
