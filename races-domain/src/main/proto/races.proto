@@ -9,7 +9,8 @@ option java_package = "ddg.races";
 option java_outer_classname = "RaceProto";
 
 service RaceService {
-  rpc Find (RaceId) returns (Race) {}
+  rpc find (RaceId) returns (Race);
+  rpc create (Race) returns (RaceId);
 }
 
 message RaceId {
@@ -17,13 +18,14 @@ message RaceId {
 }
 
 message Race {
-  repeated Modifier bonusModifier = 1;
-  int32 maxAge = 2;
-  string trend = 3;
-  double height = 4;
-  double displacement = 5;
-  repeated string names = 6;
-  repeated string languages = 7;
+  string name = 1;
+  repeated Modifier bonusModifier = 2;
+  int32 maxAge = 3;
+  string trend = 4;
+  double height = 5;
+  double displacement = 6;
+  repeated string names = 7;
+  repeated string languages = 8;
 }
 
 message Modifier {

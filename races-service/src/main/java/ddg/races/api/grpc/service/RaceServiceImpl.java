@@ -14,6 +14,7 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
         System.out.println("Received Message: " + id);
 
         Race response = Race.newBuilder()
+                .setName("Anão")
                 .setMaxAge(150)
                 .setTrend(". A maioria dos anões é leal, pois acreditam\n" +
                         "firmemente nos benefícios de uma sociedade bem\n" +
@@ -22,6 +23,18 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
                         "compartilhar os benefícios de uma ordem social justa.")
                 .setHeight(1.5)
                 .setDisplacement(9.0)
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void create(Race request, StreamObserver<RaceId> responseObserver) {
+        System.out.println("Received Message: " + request.getName());
+
+        RaceId response = RaceId.newBuilder()
+                .setId("1")
                 .build();
 
         responseObserver.onNext(response);
