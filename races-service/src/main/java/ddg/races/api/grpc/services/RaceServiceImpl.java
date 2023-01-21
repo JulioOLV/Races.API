@@ -1,4 +1,4 @@
-package ddg.races.api.grpc.service;
+package ddg.races.api.grpc.services;
 
 import ddg.races.Race;
 import ddg.races.RaceId;
@@ -6,8 +6,6 @@ import ddg.races.RaceServiceGrpc;
 import ddg.races.api.respositories.IRaceRepository;
 import io.grpc.stub.StreamObserver;
 import net.devh.boot.grpc.server.service.GrpcService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import javax.inject.Inject;
 
@@ -15,7 +13,6 @@ import javax.inject.Inject;
 public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
     @Inject
     IRaceRepository raceRepository;
-    private final Logger LOG = LoggerFactory.getLogger(getClass());
 
     public RaceServiceImpl(IRaceRepository raceRepository) {
         this.raceRepository = raceRepository;
