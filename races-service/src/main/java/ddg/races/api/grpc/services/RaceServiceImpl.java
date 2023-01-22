@@ -3,8 +3,14 @@ package ddg.races.api.grpc.services;
 import ddg.races.Race;
 import ddg.races.RaceId;
 import ddg.races.RaceServiceGrpc;
+import ddg.races.api.application.usecases.create_race.mediator.CreateNewRace;
+import ddg.races.api.application.usecases.create_race.models.CreateNewRaceInput;
+import ddg.races.api.application.usecases.create_race.models.CreateNewRaceOutput;
+import ddg.races.api.application.usecases.create_race.mediator.CreateRace;
 import ddg.races.api.respositories.IRaceRepository;
 import io.grpc.stub.StreamObserver;
+import ddg.races.api.application.usecases.create_race.CreateRaceUseCase;
+import ddg.races.api.application.usecases.create_race.ICreateRaceUseCase;
 import net.devh.boot.grpc.server.service.GrpcService;
 
 import javax.inject.Inject;
@@ -45,8 +51,17 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
     public void create(Race request, StreamObserver<RaceId> responseObserver) {
         System.out.println("Received Message: " + request.getName());
 
+        CreateNewRaceInput input = new CreateNewRaceInput();
+        input.setName(request.getName());
+
+        ICreateRaceUseCase useCase = new CreateRaceUseCase();
+
+        CreateRace createRace = new CreateNewRace(useCase, input);
+
+        CreateNewRaceOutput output = createRace.handler(input);
+
         RaceId response = RaceId.newBuilder()
-                .setId("1")
+                .setId(output.getId())
                 .build();
 
         responseObserver.onNext(response);
