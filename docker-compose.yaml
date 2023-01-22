@@ -1,28 +1,14 @@
 version: '3.7'
 
 services:
-  app:
-    build: .
-    restart: always
-    ports:
-      - 9090:9090
-    depends_on:
-      - mongo
-    networks:
-      - mongodb
-
   mongo:
     image: mongo
     restart: always
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-      MONGO_INITDB_DATABASE: user_db
+      MONGO_INITDB_DATABASE: admin
     ports:
       - 27017:27017
-    networks:
-      - mongodb
-
-networks:
-  mongodb:
-    driver: bridge
+    volumes:
+      - ./mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:ro
