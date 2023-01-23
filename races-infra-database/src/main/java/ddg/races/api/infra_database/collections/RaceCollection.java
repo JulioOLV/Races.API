@@ -3,9 +3,12 @@ package ddg.races.api.infra_database.collections;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-@Document
+@Document("RaceCollection")
 public class RaceCollection {
     public String getId() {
         return id;
@@ -23,11 +26,11 @@ public class RaceCollection {
         this.name = name;
     }
 
-    public ModifierCollection[] getModifiers() {
+    public ArrayList<ModifierCollection> getModifiers() {
         return modifiers;
     }
 
-    public void setModifiers(ModifierCollection[] modifiers) {
+    public void setModifiers(ArrayList<ModifierCollection> modifiers) {
         this.modifiers = modifiers;
     }
 
@@ -63,19 +66,19 @@ public class RaceCollection {
         this.displacement = displacement;
     }
 
-    public String[] getNames() {
+    public ArrayList<String> getNames() {
         return names;
     }
 
-    public void setNames(String[] names) {
+    public void setNames(ArrayList<String> names) {
         this.names = names;
     }
 
-    public String[] getLanguages() {
+    public ArrayList<String> getLanguages() {
         return languages;
     }
 
-    public void setLanguages(String[] languages) {
+    public void setLanguages(ArrayList<String> languages) {
         this.languages = languages;
     }
 
@@ -95,39 +98,54 @@ public class RaceCollection {
         this.updatedDate = updatedDate;
     }
 
-    public SubRaceCollection[] getSubRaces() {
+    public ArrayList<SubRaceCollection> getSubRaces() {
         return subRaces;
     }
 
-    public void setSubRaces(SubRaceCollection[] subRaces) {
+    public void setSubRaces(ArrayList<SubRaceCollection> subRaces) {
         this.subRaces = subRaces;
     }
 
     @Id
     private String id;
     private String name;
-    private ModifierCollection[] modifiers;
+    private ArrayList<ModifierCollection> modifiers;
     private int maxAge;
     private String trend;
     private double height;
     private double displacement;
-    private String[] names;
-    private String[] languages;
-    private SubRaceCollection[] subRaces;
+    private ArrayList<String> names;
+    private ArrayList<String> languages;
+    private ArrayList<SubRaceCollection> subRaces;
     private Date creationDate;
     private Date updatedDate;
 
     public RaceCollection(String id, String name, int maxAge, String trend, double height, double displacement, Date creationDate, Date updatedDate) {
+        super();
+
+        ArrayList<ModifierCollection> modifiers = new ArrayList<>();
+        ModifierCollection modifierCollection = new ModifierCollection("dd", "dd");
+        modifiers.add(modifierCollection);
+
+        ArrayList<String> names = new ArrayList<>();
+        names.add("gg");
+
+        ArrayList<String> languages = new ArrayList<>();
+        languages.add("gg");
+
+        ArrayList<SubRaceCollection> subRaces = new ArrayList<>();
+        subRaces.add(new SubRaceCollection("123", modifiers));
+
         this.id = id;
         this.name = name;
-        // this.modifiers = modifiers;
+        this.modifiers = modifiers;
         this.maxAge = maxAge;
         this.trend = trend;
         this.height = height;
         this.displacement = displacement;
-        // this.names = names;
-        // this.languages = languages;
-        // this.subRaces = subRaces;
+        this.names = names;
+        this.languages = languages;
+        this.subRaces = subRaces;
         this.creationDate = creationDate;
         this.updatedDate = updatedDate;
     }
@@ -168,18 +186,18 @@ class SubRaceCollection {
         this.name = name;
     }
 
-    public ModifierCollection[] getModifiers() {
+    public ArrayList<ModifierCollection> getModifiers() {
         return modifiers;
     }
 
-    public void setModifiers(ModifierCollection[] modifiers) {
+    public void setModifiers(ArrayList<ModifierCollection> modifiers) {
         this.modifiers = modifiers;
     }
 
     private String name;
-    private ModifierCollection[] modifiers;
+    private ArrayList<ModifierCollection> modifiers;
 
-    public SubRaceCollection(String name, ModifierCollection[] modifiers) {
+    public SubRaceCollection(String name, ArrayList<ModifierCollection> modifiers) {
         this.name = name;
         this.modifiers = modifiers;
     }

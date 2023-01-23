@@ -11,13 +11,14 @@ import io.grpc.stub.StreamObserver;
 import ddg.races.api.application.usecases.create_race.CreateRaceUseCase;
 import ddg.races.api.application.usecases.create_race.ICreateRaceUseCase;
 import net.devh.boot.grpc.server.service.GrpcService;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import javax.inject.Inject;
 
 @GrpcService
 public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
-    @Inject
-    IRaceRepository raceRepository;
+    @Autowired
+    private final IRaceRepository raceRepository;
 
     public RaceServiceImpl(IRaceRepository raceRepository) {
         this.raceRepository = raceRepository;
@@ -40,8 +41,6 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
                 .setDisplacement(9.0)
                 .build();
 
-        var gg = raceRepository.findAll();
-
         responseObserver.onNext(response);
         responseObserver.onCompleted();
     }
@@ -50,7 +49,7 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
     public void create(Race request, StreamObserver<RaceId> responseObserver) {
         System.out.println("Received Message: " + request.getName());
 
-        ICreateRaceUseCase useCase = new CreateRaceUseCase();
+        ICreateRaceUseCase useCase = new CreateRaceUseCase(this.raceRepository);
 
         CreateRace createRace = new CreateNewRace(useCase);
 
