@@ -1,8 +1,12 @@
-package ddg.races.api.application.usecases.create_race.models;
+package ddg.races.api.infra_database.collections;
+
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
 
-public class CreateNewRaceInput {
+@Document
+public class RaceCollection {
     public String getId() {
         return id;
     }
@@ -19,11 +23,11 @@ public class CreateNewRaceInput {
         this.name = name;
     }
 
-    public Modifier[] getModifiers() {
+    public ModifierCollection[] getModifiers() {
         return modifiers;
     }
 
-    public void setModifiers(Modifier[] modifiers) {
+    public void setModifiers(ModifierCollection[] modifiers) {
         this.modifiers = modifiers;
     }
 
@@ -75,14 +79,6 @@ public class CreateNewRaceInput {
         this.languages = languages;
     }
 
-    public SubRace[] getSubRaces() {
-        return subRaces;
-    }
-
-    public void setSubRaces(SubRace[] subRaces) {
-        this.subRaces = subRaces;
-    }
-
     public Date getCreationDate() {
         return creationDate;
     }
@@ -99,36 +95,45 @@ public class CreateNewRaceInput {
         this.updatedDate = updatedDate;
     }
 
+    public SubRaceCollection[] getSubRaces() {
+        return subRaces;
+    }
+
+    public void setSubRaces(SubRaceCollection[] subRaces) {
+        this.subRaces = subRaces;
+    }
+
+    @Id
     private String id;
     private String name;
-    private Modifier[] modifiers;
+    private ModifierCollection[] modifiers;
     private int maxAge;
     private String trend;
     private double height;
     private double displacement;
     private String[] names;
     private String[] languages;
-    private SubRace[] subRaces;
+    private SubRaceCollection[] subRaces;
     private Date creationDate;
     private Date updatedDate;
 
-    public CreateNewRaceInput(String id, String name, Modifier[] modifiers, int maxAge, String trend, double height, double displacement, String[] names, String[] languages, SubRace[] subRaces, Date creationDate, Date updatedDate) {
+    public RaceCollection(String id, String name, int maxAge, String trend, double height, double displacement, Date creationDate, Date updatedDate) {
         this.id = id;
         this.name = name;
-        this.modifiers = modifiers;
+        // this.modifiers = modifiers;
         this.maxAge = maxAge;
         this.trend = trend;
         this.height = height;
         this.displacement = displacement;
-        this.names = names;
-        this.languages = languages;
-        this.subRaces = subRaces;
+        // this.names = names;
+        // this.languages = languages;
+        // this.subRaces = subRaces;
         this.creationDate = creationDate;
         this.updatedDate = updatedDate;
     }
 }
 
-class Modifier {
+class ModifierCollection {
     public String getName() {
         return name;
     }
@@ -148,13 +153,13 @@ class Modifier {
     private String name;
     private String value;
 
-    public Modifier(String name, String value) {
+    public ModifierCollection(String name, String value) {
         this.name = name;
         this.value = value;
     }
 }
 
-class SubRace {
+class SubRaceCollection {
     public String getName() {
         return name;
     }
@@ -163,18 +168,18 @@ class SubRace {
         this.name = name;
     }
 
-    public Modifier[] getModifiers() {
+    public ModifierCollection[] getModifiers() {
         return modifiers;
     }
 
-    public void setModifiers(Modifier[] modifiers) {
+    public void setModifiers(ModifierCollection[] modifiers) {
         this.modifiers = modifiers;
     }
 
     private String name;
-    private Modifier[] modifiers;
+    private ModifierCollection[] modifiers;
 
-    public SubRace(String name, Modifier[] modifiers) {
+    public SubRaceCollection(String name, ModifierCollection[] modifiers) {
         this.name = name;
         this.modifiers = modifiers;
     }

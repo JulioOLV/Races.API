@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.data.mongodb.repository.config.EnableMongoRepositories;
 
 @SpringBootApplication
-@EnableMongoRepositories("ddg.races.api.respositories")
+@EnableMongoRepositories("ddg.races.api.infra_database.repositories")
 public class GrpcServer {
 
 	public static void main(String[] args) {

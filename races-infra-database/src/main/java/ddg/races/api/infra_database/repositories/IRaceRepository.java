@@ -1,6 +1,6 @@
-package ddg.races.api.respositories;
+package ddg.races.api.infra_database.repositories;
 
-import ddg.races.api.collections.RaceCollection;
+import ddg.races.api.infra_database.collections.RaceCollection;
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Repository;
 
