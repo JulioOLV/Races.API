@@ -19,7 +19,7 @@ message RaceId {
 
 message Race {
   string name = 1;
-  repeated Modifier bonusModifier = 2;
+  repeated Modifier modifiers = 2;
   int32 maxAge = 3;
   string trend = 4;
   double height = 5;
@@ -36,5 +36,5 @@ message Modifier {
 
 message SubRace {
   string name = 1;
-  Modifier bonusModifier = 2;
+  Modifier bonus = 2;
 }

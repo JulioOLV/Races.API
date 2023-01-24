@@ -2,8 +2,10 @@ package ddg.races.api.application.usecases.create_race;
 
 import ddg.races.Race;
 import ddg.races.api.application.usecases.create_race.models.CreateNewRaceOutput;
+import ddg.races.api.domain.mappers.RaceMappers;
 import ddg.races.api.infra_database.collections.RaceCollection;
 import ddg.races.api.infra_database.repositories.IRaceRepository;
+import org.modelmapper.ModelMapper;
 
 import java.util.Date;
 
@@ -16,21 +18,7 @@ public class CreateRaceUseCase implements ICreateRaceUseCase {
 
     @Override
     public CreateNewRaceOutput createNewRace(Race request) {
-        RaceCollection collection = new RaceCollection(
-                "2",
-                request.getName(),
-                // request.getModifiers(),
-                request.getMaxAge(),
-                request.getTrend(),
-                request.getHeight(),
-                request.getDisplacement(),
-                // request.getNamesList(),
-                // request.getLanguagesList(),
-                // request.getSubRaces(),
-                new Date(),
-                new Date()
-        );
-
+        RaceCollection collection = RaceMappers.MapToRaceCollection(request);
         this.raceRepository.save(collection);
         CreateNewRaceOutput output = new CreateNewRaceOutput();
         output.setId(collection.getId());
