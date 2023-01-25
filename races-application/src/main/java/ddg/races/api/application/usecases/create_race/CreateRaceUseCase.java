@@ -5,7 +5,6 @@ import ddg.races.api.application.usecases.create_race.models.CreateNewRaceOutput
 import ddg.races.api.domain.mappers.RaceMappers;
 import ddg.races.api.infra_database.collections.RaceCollection;
 import ddg.races.api.infra_database.repositories.IRaceRepository;
-import org.modelmapper.ModelMapper;
 
 import java.util.Date;
 

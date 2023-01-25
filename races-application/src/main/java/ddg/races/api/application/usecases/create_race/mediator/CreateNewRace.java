@@ -11,7 +11,6 @@ public class CreateNewRace extends CreateRace {
 
     @Override
     public CreateNewRaceOutput handler(Race request) {
-        System.out.println("CreateNewRace handler");
         return getUseCase().createNewRace(request);
     }
 }
