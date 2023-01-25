@@ -9,12 +9,19 @@ option java_package = "ddg.races";
 option java_outer_classname = "RaceProto";
 
 service RaceService {
-  rpc find (RaceId) returns (Race);
+  rpc list (Null) returns (ListRace);
   rpc create (Race) returns (RaceId);
+}
+
+message Null {
 }
 
 message RaceId {
   string id = 1;
+}
+
+message ListRace {
+  repeated Race races = 1;
 }
 
 message Race {
@@ -36,5 +43,5 @@ message Modifier {
 
 message SubRace {
   string name = 1;
-  Modifier bonus = 2;
+  repeated Modifier bonus = 2;
 }

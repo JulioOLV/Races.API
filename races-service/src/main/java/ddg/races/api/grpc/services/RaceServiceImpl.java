@@ -1,19 +1,20 @@
 package ddg.races.api.grpc.services;
 
-import ddg.races.Race;
-import ddg.races.RaceId;
-import ddg.races.RaceServiceGrpc;
+import ddg.races.*;
 import ddg.races.api.application.usecases.create_race.mediator.CreateNewRace;
 import ddg.races.api.application.usecases.create_race.models.CreateNewRaceOutput;
 import ddg.races.api.application.usecases.create_race.mediator.CreateRace;
+import ddg.races.api.application.usecases.list_races.IListRacesUseCase;
+import ddg.races.api.application.usecases.list_races.ListRacesUseCase;
+import ddg.races.api.application.usecases.list_races.mediator.ListAllRaces;
+import ddg.races.api.application.usecases.list_races.mediator.ListRaces;
+import ddg.races.api.application.usecases.list_races.models.ListRacesOutput;
 import ddg.races.api.infra_database.repositories.IRaceRepository;
 import io.grpc.stub.StreamObserver;
 import ddg.races.api.application.usecases.create_race.CreateRaceUseCase;
 import ddg.races.api.application.usecases.create_race.ICreateRaceUseCase;
 import net.devh.boot.grpc.server.service.GrpcService;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import javax.inject.Inject;
 
 @GrpcService
 public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
@@ -25,20 +26,15 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
     }
 
     @Override
-    public void find(RaceId request, StreamObserver<Race> responseObserver) {
-        String id = request.getId();
-        System.out.println("Received Message: " + id);
+    public void list(Null request, StreamObserver<ListRace> responseObserver) {
+        IListRacesUseCase useCase = new ListRacesUseCase(this.raceRepository);
 
-        Race response = Race.newBuilder()
-                .setName("Anão")
-                .setMaxAge(150)
-                .setTrend(". A maioria dos anões é leal, pois acreditam\n" +
-                        "firmemente nos benefícios de uma sociedade bem\n" +
-                        "organizada. Eles tendem para o bem, com um forte senso\n" +
-                        "de honestidade e uma crença de que todos merecem\n" +
-                        "compartilhar os benefícios de uma ordem social justa.")
-                .setHeight(1.5)
-                .setDisplacement(9.0)
+        ListRaces listRaces = new ListAllRaces(useCase);
+
+        ListRacesOutput output = listRaces.handler();
+
+        ListRace response = ListRace.newBuilder()
+                .addAllRaces(output.getRaces())
                 .build();
 
         responseObserver.onNext(response);
@@ -47,8 +43,6 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
 
     @Override
     public void create(Race request, StreamObserver<RaceId> responseObserver) {
-        System.out.println("Received Message: " + request.getName());
-
         ICreateRaceUseCase useCase = new CreateRaceUseCase(this.raceRepository);
 
         CreateRace createRace = new CreateNewRace(useCase);
