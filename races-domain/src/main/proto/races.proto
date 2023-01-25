@@ -11,6 +11,7 @@ option java_outer_classname = "RaceProto";
 service RaceService {
   rpc list (Null) returns (ListRace);
   rpc create (Race) returns (RaceId);
+  rpc update (RaceUpdate) returns (RaceId);
 }
 
 message Null {
@@ -34,6 +35,11 @@ message Race {
   repeated string names = 7;
   repeated string languages = 8;
   repeated SubRace subRaces = 9;
+}
+
+message RaceUpdate {
+  string id = 1;
+  Race race = 2;
 }
 
 message Modifier {

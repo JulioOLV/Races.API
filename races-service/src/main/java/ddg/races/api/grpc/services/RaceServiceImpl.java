@@ -9,6 +9,11 @@ import ddg.races.api.application.usecases.list_races.ListRacesUseCase;
 import ddg.races.api.application.usecases.list_races.mediator.ListAllRaces;
 import ddg.races.api.application.usecases.list_races.mediator.ListRaces;
 import ddg.races.api.application.usecases.list_races.models.ListRacesOutput;
+import ddg.races.api.application.usecases.update_race.IUpdateRaceUseCase;
+import ddg.races.api.application.usecases.update_race.UpdateRaceUseCase;
+import ddg.races.api.application.usecases.update_race.mediator.UpdateOneRace;
+import ddg.races.api.application.usecases.update_race.mediator.UpdateRace;
+import ddg.races.api.application.usecases.update_race.models.UpdateRaceOutput;
 import ddg.races.api.infra_database.repositories.IRaceRepository;
 import io.grpc.stub.StreamObserver;
 import ddg.races.api.application.usecases.create_race.CreateRaceUseCase;
@@ -48,6 +53,22 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
         CreateRace createRace = new CreateNewRace(useCase);
 
         CreateNewRaceOutput output = createRace.handler(request);
+
+        RaceId response = RaceId.newBuilder()
+                .setId(output.getId())
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void update(RaceUpdate request, StreamObserver<RaceId> responseObserver) {
+        IUpdateRaceUseCase useCase = new UpdateRaceUseCase(this.raceRepository);
+
+        UpdateRace updateRace = new UpdateOneRace(useCase);
+
+        UpdateRaceOutput output = updateRace.handler(request);
 
         RaceId response = RaceId.newBuilder()
                 .setId(output.getId())
