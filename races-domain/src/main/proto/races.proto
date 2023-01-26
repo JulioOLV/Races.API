@@ -12,9 +12,14 @@ service RaceService {
   rpc list (Null) returns (ListRace);
   rpc create (Race) returns (RaceId);
   rpc update (RaceUpdate) returns (RaceId);
+  rpc delete (RaceId) returns (Success);
 }
 
 message Null {
+}
+
+message Success {
+  bool success = 1;
 }
 
 message RaceId {

@@ -4,6 +4,11 @@ import ddg.races.*;
 import ddg.races.api.application.usecases.create_race.mediator.CreateNewRace;
 import ddg.races.api.application.usecases.create_race.models.CreateNewRaceOutput;
 import ddg.races.api.application.usecases.create_race.mediator.CreateRace;
+import ddg.races.api.application.usecases.delete_race.DeleteRaceUseCase;
+import ddg.races.api.application.usecases.delete_race.IDeleteRaceUseCase;
+import ddg.races.api.application.usecases.delete_race.mediator.DeleteOneRace;
+import ddg.races.api.application.usecases.delete_race.mediator.DeleteRace;
+import ddg.races.api.application.usecases.delete_race.models.DeleteRaceOutput;
 import ddg.races.api.application.usecases.list_races.IListRacesUseCase;
 import ddg.races.api.application.usecases.list_races.ListRacesUseCase;
 import ddg.races.api.application.usecases.list_races.mediator.ListAllRaces;
@@ -72,6 +77,22 @@ public class RaceServiceImpl extends RaceServiceGrpc.RaceServiceImplBase {
 
         RaceId response = RaceId.newBuilder()
                 .setId(output.getId())
+                .build();
+
+        responseObserver.onNext(response);
+        responseObserver.onCompleted();
+    }
+
+    @Override
+    public void delete(RaceId request, StreamObserver<Success> responseObserver) {
+        IDeleteRaceUseCase useCase = new DeleteRaceUseCase(this.raceRepository);
+
+        DeleteRace deleteRace = new DeleteOneRace(useCase);
+
+        DeleteRaceOutput output = deleteRace.handler(request);
+
+        Success response = Success.newBuilder()
+                .setSuccess(output.getDeleted())
                 .build();
 
         responseObserver.onNext(response);
